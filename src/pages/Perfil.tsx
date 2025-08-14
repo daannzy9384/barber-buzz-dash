@@ -71,24 +71,24 @@ const Perfil = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="nome">Nome Completo</Label>
-                        <Input id="nome" value={usuario.nome} />
+                        <Input id="nome" defaultValue={usuario.nome} />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="email">E-mail</Label>
-                        <Input id="email" type="email" value={usuario.email} />
+                        <Input id="email" type="email" defaultValue={usuario.email} />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="telefone">Telefone</Label>
-                        <Input id="telefone" value={usuario.telefone} />
+                        <Input id="telefone" defaultValue={usuario.telefone} />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="nascimento">Data de Nascimento</Label>
-                        <Input id="nascimento" type="date" value={usuario.dataNascimento} />
+                        <Input id="nascimento" type="date" defaultValue={usuario.dataNascimento} />
                       </div>
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="endereco">Endereço</Label>
-                      <Input id="endereco" value={usuario.endereco} />
+                      <Input id="endereco" defaultValue={usuario.endereco} />
                     </div>
                     <Button className="bg-gradient-primary hover:opacity-90 transition-opacity">
                       Salvar Alterações

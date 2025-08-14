@@ -2,10 +2,13 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/Sidebar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Plus, User } from "lucide-react";
+import { Calendar, Clock, Plus, User, Edit, Trash2, Check, X } from "lucide-react";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const Agendamentos = () => {
-  const agendamentos = [
+  const { toast } = useToast();
+  const [agendamentos, setAgendamentos] = useState([
     {
       id: 1,
       cliente: "João Silva",
@@ -30,7 +33,35 @@ const Agendamentos = () => {
       hora: "10:00",
       status: "confirmado"
     }
-  ];
+  ]);
+
+  const handleNovoAgendamento = () => {
+    toast({
+      title: "Novo Agendamento",
+      description: "Funcionalidade em desenvolvimento",
+    });
+  };
+
+  const handleConfirmarAgendamento = (id: number) => {
+    setAgendamentos(prev => 
+      prev.map(ag => 
+        ag.id === id ? { ...ag, status: "confirmado" } : ag
+      )
+    );
+    toast({
+      title: "Agendamento Confirmado",
+      description: "O agendamento foi confirmado com sucesso",
+    });
+  };
+
+  const handleCancelarAgendamento = (id: number) => {
+    setAgendamentos(prev => prev.filter(ag => ag.id !== id));
+    toast({
+      title: "Agendamento Cancelado",
+      description: "O agendamento foi cancelado",
+      variant: "destructive",
+    });
+  };
 
   return (
     <SidebarProvider>
@@ -47,7 +78,10 @@ const Agendamentos = () => {
                   Gerencie todos os agendamentos da barbearia
                 </p>
               </div>
-              <Button className="bg-gradient-primary hover:opacity-90 transition-opacity">
+              <Button 
+                onClick={handleNovoAgendamento}
+                className="bg-gradient-primary hover:opacity-90 transition-opacity"
+              >
                 <Plus className="h-4 w-4 mr-2" />
                 Novo Agendamento
               </Button>
@@ -82,6 +116,27 @@ const Agendamentos = () => {
                         <Clock className="h-4 w-4" />
                         {agendamento.hora}
                       </div>
+                    </div>
+                    <div className="flex gap-2 pt-4">
+                      {agendamento.status === 'pendente' && (
+                        <Button
+                          size="sm"
+                          onClick={() => handleConfirmarAgendamento(agendamento.id)}
+                          className="flex-1"
+                        >
+                          <Check className="h-4 w-4 mr-1" />
+                          Confirmar
+                        </Button>
+                      )}
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => handleCancelarAgendamento(agendamento.id)}
+                        className="flex-1"
+                      >
+                        <X className="h-4 w-4 mr-1" />
+                        Cancelar
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>

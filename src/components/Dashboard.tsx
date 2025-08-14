@@ -3,6 +3,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import heroImage from "@/assets/barbershop-hero.jpg";
+import { MonthlyChart } from "./MonthlyChart";
+import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const mockAppointments = [
   { id: 1, service: "Corte + Barba", time: "14:00", date: "Hoje", barber: "Carlos" },
@@ -17,6 +20,25 @@ const mockHistory = [
 ];
 
 export function Dashboard() {
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  const handleAgendarAgora = () => {
+    navigate('/agendamentos');
+    toast({
+      title: "Redirecionando",
+      description: "Abrindo página de agendamentos",
+    });
+  };
+
+  const handleVerTodosAgendamentos = () => {
+    navigate('/agendamentos');
+  };
+
+  const handleVerHistoricoCompleto = () => {
+    navigate('/historico');
+  };
+
   return (
     <div className="p-6 space-y-6 min-h-screen bg-gradient-dark">
       {/* Hero Section */}
@@ -34,7 +56,12 @@ export function Dashboard() {
             <p className="text-lg text-muted-foreground mb-6">
               Gerencie seus agendamentos e acompanhe seu histórico de serviços
             </p>
-            <Button variant="default" size="lg" className="bg-gradient-primary hover:shadow-glow transition-all duration-300">
+            <Button 
+              onClick={handleAgendarAgora}
+              variant="default" 
+              size="lg" 
+              className="bg-gradient-primary hover:shadow-glow transition-all duration-300"
+            >
               <Calendar className="mr-2 h-5 w-5" />
               Agendar Agora
             </Button>
@@ -114,7 +141,11 @@ export function Dashboard() {
                 </Badge>
               </div>
             ))}
-            <Button variant="outline" className="w-full mt-4 border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+            <Button 
+              onClick={handleVerTodosAgendamentos}
+              variant="outline" 
+              className="w-full mt-4 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+            >
               Ver Todos os Agendamentos
             </Button>
           </CardContent>
@@ -144,7 +175,11 @@ export function Dashboard() {
                 </div>
               </div>
             ))}
-            <Button variant="outline" className="w-full mt-4 border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+            <Button 
+              onClick={handleVerHistoricoCompleto}
+              variant="outline" 
+              className="w-full mt-4 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+            >
               Ver Histórico Completo
             </Button>
           </CardContent>
@@ -189,6 +224,19 @@ export function Dashboard() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Gráficos de Estatísticas Mensais */}
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">
+            Estatísticas Mensais
+          </h2>
+          <p className="text-muted-foreground">
+            Acompanhe o desempenho mensal da barbearia
+          </p>
+        </div>
+        <MonthlyChart />
+      </div>
     </div>
   );
 }
