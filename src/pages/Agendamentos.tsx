@@ -104,13 +104,53 @@ const Agendamentos = () => {
                 </p>
               </div>
               <Button 
-                onClick={handleNovoAgendamento}
+                onClick={() => setDialogOpen(true)}
                 className="bg-gradient-primary hover:opacity-90 transition-opacity"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Novo Agendamento
               </Button>
             </div>
+
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogContent className="bg-card border-border">
+                <DialogHeader>
+                  <DialogTitle>Novo Agendamento</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div>
+                    <Label>Cliente</Label>
+                    <Input value={novoCliente} onChange={e => setNovoCliente(e.target.value)} placeholder="Nome do cliente" />
+                  </div>
+                  <div>
+                    <Label>Serviço</Label>
+                    <Select value={novoServico} onValueChange={setNovoServico}>
+                      <SelectTrigger><SelectValue placeholder="Selecione o serviço" /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Corte Masculino">Corte Masculino</SelectItem>
+                        <SelectItem value="Corte + Barba">Corte + Barba</SelectItem>
+                        <SelectItem value="Barba + Bigode">Barba + Bigode</SelectItem>
+                        <SelectItem value="Corte Infantil">Corte Infantil</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label>Data</Label>
+                      <Input type="date" value={novaData} onChange={e => setNovaData(e.target.value)} />
+                    </div>
+                    <div>
+                      <Label>Hora</Label>
+                      <Input type="time" value={novaHora} onChange={e => setNovaHora(e.target.value)} />
+                    </div>
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setDialogOpen(false)}>Cancelar</Button>
+                  <Button onClick={handleNovoAgendamento} className="bg-gradient-primary">Criar Agendamento</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
 
             <div className="grid gap-6">
               {agendamentos.map((agendamento) => (
