@@ -39,11 +39,32 @@ const Agendamentos = () => {
     }
   ]);
 
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [novoCliente, setNovoCliente] = useState("");
+  const [novoServico, setNovoServico] = useState("");
+  const [novaData, setNovaData] = useState("");
+  const [novaHora, setNovaHora] = useState("");
+
   const handleNovoAgendamento = () => {
-    toast({
-      title: "Novo Agendamento",
-      description: "Funcionalidade em desenvolvimento",
-    });
+    if (!novoCliente || !novoServico || !novaData || !novaHora) {
+      toast({ title: "Preencha todos os campos", variant: "destructive" });
+      return;
+    }
+    const novo = {
+      id: Date.now(),
+      cliente: novoCliente,
+      servico: novoServico,
+      data: novaData,
+      hora: novaHora,
+      status: "pendente" as const,
+    };
+    setAgendamentos(prev => [...prev, novo]);
+    setDialogOpen(false);
+    setNovoCliente("");
+    setNovoServico("");
+    setNovaData("");
+    setNovaHora("");
+    toast({ title: "Agendamento criado!", description: `${novoCliente} - ${novoServico}` });
   };
 
   const handleConfirmarAgendamento = (id: number) => {
